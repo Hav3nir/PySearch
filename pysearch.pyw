@@ -55,7 +55,7 @@ def main():
     fichier = open("urls.txt", "a")
     fichier.write(heure + " website url: " + url + "\n")
     fichier.close()
-    f = open(my_entry.get() + ".txt", "w")
+    f = open("google_" + my_entry.get() + ".txt", "w")
     all_titles = driver.find_elements_by_tag_name("h3")
     for title in all_titles:
         f.write(title.text + "\n")
@@ -65,6 +65,44 @@ def main():
     driver.close()
     
 
+def amazon():
+    from selenium import webdriver
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.firefox.options import Options as FirefoxOptions
+    import time
+    import io
+    now = time.localtime(time.time())
+    heure = time.strftime("%y/%m/%d|%H:%M", now)
+    if my_entry.get() == "":
+        label = Label(root, fg="red", text="Erreur, aucun mot sasie !")
+        label.pack()        
+        return
+    options = FirefoxOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Firefox(options=options)
+    driver.get("http://amazon.com/")
+    elem = driver.find_element_by_id("twotabsearchtextbox")
+    elem.clear()
+    elem.send_keys(my_entry.get())
+    elem.send_keys(Keys.ENTER)
+    sleep(3)
+    url = driver.current_url
+    fichier = open("urls_amazon.txt", "a")
+    fichier.write(heure + " website url: " + url + "\n")
+    fichier.close()
+    all_titles = driver.find_elements_by_tag_name("h2")
+    with open("amazon_" + my_entry.get() + "_prix.txt", "w", encoding="utf-8") as f:
+        for title in all_titles:
+            f.write(title.text)
+    all_price = driver.find_elements_by_class_name("a-price")
+    with open("amazon_" + my_entry.get() + "_prix.txt", "w", encoding="utf-8") as f:
+        for prices in all_price:
+            f.write(prices.text)
+    label = Label(root, fg="green", text="Recherche terminé et enregistrée")
+    label.pack()
+    driver.close()
+
+
 root = Tk()
 root.title("Outil de recherche google !")
 root.geometry("500x150")
@@ -72,6 +110,8 @@ my_entry = Entry(root)
 my_entry.pack()
 btn = Button(root, text="Lancer la recherche", command=main)
 btn.pack()
+btnamazon = Button(root, text="Lancer la recherche sur amazon.fr", command=amazon)
+btnamazon.pack()
 btn2 = Button(root, text="Quitter", command=root.destroy)
 btn2.pack()
 root.mainloop()
