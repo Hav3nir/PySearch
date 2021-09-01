@@ -9,6 +9,7 @@ Pysearch est un outils de recherche google simple, il dispose d'une interface gr
 
 # Utilisation
  - Lancez simplement le pysearch.pyw et le tour est joué
+ - Vous pouvez utiliser le bouton "rechercher sur amazon.fr" pour effectuer dirrectement votre recherche sur le site officielle d'amazon
 
 # Informations avancées
  - Le programme utilise l'outils selenium pour python et Tkinter
