@@ -91,7 +91,7 @@ def amazon():
     fichier.write(heure + " website url: " + url + "\n")
     fichier.close()
     all_titles = driver.find_elements_by_tag_name("h2")
-    with open("amazon_" + my_entry.get() + "_prix.txt", "w", encoding="utf-8") as f:
+    with open("amazon_" + my_entry.get() + "_titres.txt", "w", encoding="utf-8") as f:
         for title in all_titles:
             f.write(title.text)
     all_price = driver.find_elements_by_class_name("a-price")
